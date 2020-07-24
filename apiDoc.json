@@ -1,0 +1,1452 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "RestoPass",
+    "description" : "API's definition for RestoPass Mobile App",
+    "contact" : { },
+    "version" : "1.0.0-oas3"
+  },
+  "servers" : [ {
+    "url" : "restopass/"
+  } ],
+  "tags" : [ {
+    "name" : "API Users",
+    "description" : "Everything about Users"
+  }, {
+    "name" : "API Restaurants",
+    "description" : "Everything about Restaurants"
+  }, {
+    "name" : "API Memberships",
+    "description" : "Everything about Memberships"
+  }, {
+    "name" : "API Reservations",
+    "description" : "Everything about Reservations"
+  } ],
+  "paths" : {
+    "/users" : {
+      "post" : {
+        "tags" : [ "API Users" ],
+        "summary" : "Register new user (RestoPass account)",
+        "operationId" : "/users",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UserCreationRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Successful operation",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/UserLoginResponse"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorMessage"
+                },
+                "example" : {
+                  "code" : 40002,
+                  "httpStatusCode" : 400,
+                  "message" : "User Already created"
+                }
+              }
+            }
+          }
+        },
+        "deprecated" : false
+      },
+      "patch" : {
+        "tags" : [ "API Users" ],
+        "summary" : "/users",
+        "description" : "Edit users information",
+        "operationId" : "Patch/users",
+        "parameters" : [ {
+          "name" : "X-Auth-Token",
+          "in" : "header",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UpdateUserRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Successful operation"
+          }
+        },
+        "deprecated" : false
+      }
+    },
+    "/users/login" : {
+      "post" : {
+        "tags" : [ "API Users" ],
+        "summary" : "Login User (RestoPass account)",
+        "operationId" : "/users/login",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UserLoginRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/UserLoginResponse"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorMessage"
+                },
+                "example" : {
+                  "code" : 40001,
+                  "httpStatusCode" : 400,
+                  "message" : "Invalid username or password"
+                }
+              }
+            }
+          }
+        },
+        "deprecated" : false
+      }
+    },
+    "/users/login/google" : {
+      "post" : {
+        "tags" : [ "API Users" ],
+        "summary" : "Login/Create User (Google account)",
+        "operationId" : "/users/login/google",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UserLoginGoogleRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/UserLoginResponse"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorMessage"
+                },
+                "example" : {
+                  "code" : 40006,
+                  "httpStatusCode" : 400,
+                  "message" : "Invalid Google verification user"
+                }
+              }
+            }
+          }
+        },
+        "deprecated" : false,
+        "x-codegen-request-body-name" : "Body"
+      }
+    },
+    "/users/refresh" : {
+      "get" : {
+        "tags" : [ "API Users" ],
+        "summary" : "Refresh Access Token",
+        "operationId" : "/users/refresh",
+        "parameters" : [ {
+          "name" : "X-Auth-Token",
+          "in" : "header",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "X-Refresh-Token",
+          "in" : "header",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/UserLoginResponse"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorMessage"
+                },
+                "example" : {
+                  "code" : 40004,
+                  "httpStatusCode" : 400,
+                  "message" : "Invalid access or refresh token"
+                }
+              }
+            }
+          }
+        },
+        "deprecated" : false
+      }
+    },
+    "/users/favorite/{restaurantId}" : {
+      "post" : {
+        "tags" : [ "API Users" ],
+        "summary" : "Add a restaurant to user's favorites",
+        "operationId" : "/users/favorite/{restaurantId}",
+        "parameters" : [ {
+          "name" : "X-Auth-Token",
+          "in" : "header",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "restaurantId",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful operation"
+          }
+        },
+        "deprecated" : false
+      }
+    },
+    "/users/unfavorite/{restaurantId}" : {
+      "post" : {
+        "tags" : [ "API Users" ],
+        "summary" : "Add a restaurant to user's favorites",
+        "operationId" : "/users/unfavorite/{restaurantId}",
+        "parameters" : [ {
+          "name" : "X-Auth-Token",
+          "in" : "header",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "restaurantId",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful operation"
+          }
+        },
+        "deprecated" : false
+      }
+    },
+    "/restaurants" : {
+      "put" : {
+        "tags" : [ "API Restaurants" ],
+        "summary" : "Get restaurant by Tags",
+        "operationId" : "Get/restaurants",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/RestaurantTagsRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Restaurant"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated" : false
+      },
+      "post" : {
+        "tags" : [ "API Restaurants" ],
+        "summary" : "Register new restaurant",
+        "operationId" : "/restaurants",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/RestaurantCreationRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Successful operation"
+          }
+        },
+        "deprecated" : false
+      }
+    },
+    "/restaurants/{restaurant_id}" : {
+      "get" : {
+        "tags" : [ "API Restaurants" ],
+        "summary" : "Get restaurant by id",
+        "operationId" : "/restaurants/{restaurant_id}",
+        "parameters" : [ {
+          "name" : "restaurant_id",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful operation",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Restaurant"
+                }
+              }
+            }
+          }
+        },
+        "deprecated" : false
+      }
+    },
+    "/restaurants/dishes/{restaurantId}" : {
+      "patch" : {
+        "tags" : [ "API Restaurants" ],
+        "summary" : "Add dishes to a restaurant",
+        "operationId" : "/restaurants/dishes/{restaurant_id}",
+        "parameters" : [ {
+          "name" : "restaurantId",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/DishRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Successful operation"
+          }
+        },
+        "deprecated" : false,
+        "x-codegen-request-body-name" : "Body"
+      }
+    },
+    "/restaurants/timetable/{restaurantId}" : {
+      "patch" : {
+        "tags" : [ "API Restaurants" ],
+        "summary" : "Update timetable of a restaurant",
+        "operationId" : "/restaurants/timetable/{restaurantId}",
+        "parameters" : [ {
+          "name" : "restaurantId",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "example" : {
+                  "timeTable" : {
+                    "openingDays" : [ "string" ],
+                    "pairHours" : {
+                      "openingHour" : 0,
+                      "openingMinute" : 0,
+                      "closingHour" : 0,
+                      "closingMinute" : 0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Successful operation"
+          }
+        },
+        "deprecated" : false,
+        "x-codegen-request-body-name" : "Body"
+      }
+    },
+    "/restaurants/config" : {
+      "post" : {
+        "tags" : [ "API Restaurants" ],
+        "summary" : "Generate slots available for making reservations on a restaurant",
+        "operationId" : "/restaurants/config",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/RestaurantConfig"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Successful operation",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
+                }
+              }
+            }
+          }
+        },
+        "deprecated" : false,
+        "x-codegen-request-body-name" : "Body"
+      }
+    },
+    "/restaurants/tags" : {
+      "get" : {
+        "tags" : [ "API Restaurants" ],
+        "summary" : "Get filter tags",
+        "operationId" : "/restaurants/tags",
+        "responses" : {
+          "200" : {
+            "description" : "Successful operation",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RestaurantTagsResponse"
+                }
+              }
+            }
+          }
+        },
+        "deprecated" : false
+      }
+    },
+    "/restaurants/favorites" : {
+      "get" : {
+        "tags" : [ "API Restaurants" ],
+        "summary" : "/restaurants/favorites",
+        "description" : "Get all favorites restaurants for an user",
+        "operationId" : "/restaurants/favorites",
+        "parameters" : [ {
+          "name" : "X-Auth-Token",
+          "in" : "header",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful operation",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Restaurant"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated" : false
+      }
+    },
+    "/restaurants/score" : {
+      "post" : {
+        "tags" : [ "API Restaurants" ],
+        "summary" : "Score a restaurant and a Dish",
+        "operationId" : "/restaurants/score",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ScoreRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Successful operation"
+          }
+        },
+        "deprecated" : false
+      }
+    },
+    "/memberships" : {
+      "get" : {
+        "tags" : [ "API Memberships" ],
+        "summary" : "Get memberships",
+        "operationId" : "Get/memberships",
+        "parameters" : [ {
+          "name" : "X-Auth-Token",
+          "in" : "header",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful operation",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MembershipsResponse"
+                }
+              }
+            }
+          }
+        },
+        "deprecated" : false
+      },
+      "post" : {
+        "tags" : [ "API Memberships" ],
+        "summary" : "Register new membership",
+        "operationId" : "/memberships",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Membership"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Successful operation"
+          }
+        },
+        "deprecated" : false
+      }
+    },
+    "/memberships/users" : {
+      "delete" : {
+        "tags" : [ "API Memberships" ],
+        "summary" : "Delete user membership",
+        "operationId" : "Delete/memberships/users",
+        "parameters" : [ {
+          "name" : "X-Auth-Token",
+          "in" : "header",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful operation",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DeleteMembershipResponse"
+                }
+              }
+            }
+          }
+        },
+        "deprecated" : false
+      },
+      "patch" : {
+        "tags" : [ "API Memberships" ],
+        "summary" : "/memberships/users",
+        "description" : "Update user membership",
+        "operationId" : "/memberships/users",
+        "parameters" : [ {
+          "name" : "X-Auth-Token",
+          "in" : "header",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UpdateMembershipToUserRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Successful operation"
+          }
+        },
+        "deprecated" : false
+      }
+    },
+    "/reservations" : {
+      "get" : {
+        "tags" : [ "API Reservations" ],
+        "summary" : "Get reservations by user",
+        "operationId" : "Get/reservations",
+        "parameters" : [ {
+          "name" : "X-Auth-Token",
+          "in" : "header",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful operation",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/ReservationResponse"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated" : false
+      },
+      "post" : {
+        "tags" : [ "API Reservations" ],
+        "summary" : "Register new reservation",
+        "operationId" : "/reservations",
+        "parameters" : [ {
+          "name" : "X-Auth-Token",
+          "in" : "header",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/CreateReservationRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Successful operation"
+          }
+        },
+        "deprecated" : false
+      }
+    },
+    "/reservations/done/{reservationId}" : {
+      "patch" : {
+        "tags" : [ "API Reservations" ],
+        "summary" : "Done a reservation",
+        "operationId" : "/reservations/done/{reservationId}",
+        "parameters" : [ {
+          "name" : "X-Auth-Token",
+          "in" : "header",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "reservationId",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful operation"
+          }
+        }
+      }
+    },
+    "/reservations/cancel/{reservationId}" : {
+      "patch" : {
+        "tags" : [ "API Reservations" ],
+        "summary" : "Cancel a reservation",
+        "operationId" : "/reservations/cancel/{reservationId}",
+        "parameters" : [ {
+          "name" : "X-Auth-Token",
+          "in" : "header",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "reservationId",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful operation",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/ReservationResponse"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated" : false
+      }
+    },
+    "/reservations/confirm/{reservationId}" : {
+      "patch" : {
+        "tags" : [ "API Reservations" ],
+        "summary" : "Confirm a reservation invitation",
+        "operationId" : "/reservations/confirm/{reservationId}",
+        "parameters" : [ {
+          "name" : "X-Auth-Token",
+          "in" : "header",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "reservationId",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful operation",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/ReservationResponse"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated" : false
+      }
+    },
+    "/reservations/reject/{reservationId}" : {
+      "patch" : {
+        "tags" : [ "API Reservations" ],
+        "summary" : "Reject a reservation invitation",
+        "operationId" : "/reservations/reject/{reservationId}",
+        "parameters" : [ {
+          "name" : "X-Auth-Token",
+          "in" : "header",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "reservationId",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful operation",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/ReservationResponse"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "User" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "name" : {
+            "type" : "string"
+          }
+        }
+      },
+      "ErrorMessage" : {
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "type" : "integer"
+          },
+          "httpStatusCode" : {
+            "type" : "integer"
+          },
+          "message" : {
+            "type" : "string"
+          }
+        }
+      },
+      "UserCreationRequest" : {
+        "required" : [ "email", "lastname", "name", "password" ],
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string"
+          },
+          "password" : {
+            "type" : "string"
+          },
+          "email" : {
+            "type" : "string"
+          },
+          "lastname" : {
+            "type" : "string"
+          }
+        }
+      },
+      "UserLoginResponse" : {
+        "required" : [ "XRefreshToken", "isCreation", "user", "xAuthToken" ],
+        "type" : "object",
+        "properties" : {
+          "xAuthToken" : {
+            "type" : "string"
+          },
+          "XRefreshToken" : {
+            "type" : "string"
+          },
+          "user" : {
+            "$ref" : "#/components/schemas/User"
+          },
+          "isCreation" : {
+            "type" : "string"
+          }
+        }
+      },
+      "UserLoginRequest" : {
+        "required" : [ "email", "password" ],
+        "type" : "object",
+        "properties" : {
+          "email" : {
+            "type" : "string"
+          },
+          "password" : {
+            "type" : "string"
+          }
+        }
+      },
+      "UserLoginGoogleRequest" : {
+        "required" : [ "googleToken" ],
+        "type" : "object",
+        "properties" : {
+          "googleToken" : {
+            "type" : "string"
+          }
+        }
+      },
+      "UpdateUserRequest" : {
+        "required" : [ "lastname", "name", "password", "secondaryEmail" ],
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string"
+          },
+          "password" : {
+            "type" : "string"
+          },
+          "secondaryEmail" : {
+            "type" : "string"
+          },
+          "lastname" : {
+            "type" : "string"
+          }
+        }
+      },
+      "RestaurantTagsRequest" : {
+        "type" : "object",
+        "properties" : {
+          "lat" : {
+            "type" : "number",
+            "format" : "double"
+          },
+          "lng" : {
+            "type" : "number",
+            "format" : "double"
+          },
+          "freeText" : {
+            "type" : "string"
+          },
+          "tags" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "topMembership" : {
+            "type" : "integer"
+          }
+        }
+      },
+      "Restaurant" : {
+        "type" : "object",
+        "properties" : {
+          "restaurantId" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "img" : {
+            "type" : "string"
+          },
+          "address" : {
+            "type" : "string"
+          },
+          "latitude" : {
+            "type" : "number",
+            "format" : "double"
+          },
+          "longitude" : {
+            "type" : "number",
+            "format" : "double"
+          },
+          "tags" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "timeTable" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/RestaurantHours"
+            }
+          },
+          "dishes" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Dish"
+            }
+          },
+          "stars" : {
+            "type" : "string"
+          }
+        }
+      },
+      "RestaurantCreationRequest" : {
+        "required" : [ "address", "dishes", "img", "latitude", "longitude", "name", "tags", "timeTable" ],
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string"
+          },
+          "img" : {
+            "type" : "string"
+          },
+          "address" : {
+            "type" : "string"
+          },
+          "latitude" : {
+            "type" : "number",
+            "format" : "double"
+          },
+          "longitude" : {
+            "type" : "number",
+            "format" : "double"
+          },
+          "tags" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "timeTable" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/RestaurantHours"
+            }
+          },
+          "dishes" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/DishRequest"
+            }
+          }
+        }
+      },
+      "DishRequest" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string"
+          },
+          "img" : {
+            "type" : "string"
+          },
+          "description" : {
+            "type" : "string"
+          },
+          "baseMembership" : {
+            "$ref" : "#/components/schemas/MembershipType"
+          }
+        }
+      },
+      "MembershipType" : {
+        "type" : "integer"
+      },
+      "RestaurantHours" : {
+        "required" : [ "openingDays", "pairHours" ],
+        "type" : "object",
+        "properties" : {
+          "openingDays" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "pairHours" : {
+            "$ref" : "#/components/schemas/PairHours"
+          }
+        }
+      },
+      "PairHours" : {
+        "title" : "PairHours",
+        "required" : [ "closingHour", "closingMinute", "openingHour", "openingMinute" ],
+        "type" : "object",
+        "properties" : {
+          "openingHour" : {
+            "type" : "integer"
+          },
+          "openingMinute" : {
+            "type" : "integer"
+          },
+          "closingHour" : {
+            "type" : "integer"
+          },
+          "closingMinute" : {
+            "type" : "integer"
+          }
+        }
+      },
+      "Dish" : {
+        "title" : "Dish",
+        "required" : [ "baseMembership", "baseMembershipName", "description", "dishId", "name", "stars" ],
+        "type" : "object",
+        "properties" : {
+          "dishId" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "description" : {
+            "type" : "string"
+          },
+          "baseMembership" : {
+            "type" : "integer"
+          },
+          "baseMembershipName" : {
+            "type" : "string"
+          },
+          "stars" : {
+            "type" : "number",
+            "format" : "float"
+          }
+        }
+      },
+      "RestaurantConfig" : {
+        "type" : "object",
+        "properties" : {
+          "restaurantId" : {
+            "type" : "string"
+          },
+          "tablesPerShift" : {
+            "type" : "integer"
+          },
+          "minutesGap" : {
+            "type" : "integer"
+          },
+          "maxDiners" : {
+            "type" : "integer"
+          },
+          "slots" : {
+            "$ref" : "#/components/schemas/RestaurantSlot"
+          }
+        }
+      },
+      "RestaurantSlot" : {
+        "type" : "object",
+        "properties" : {
+          "dateTimeWithTables" : {
+            "type" : "array",
+            "items" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/RestaurantHours"
+              }
+            }
+          },
+          "isDayFull" : {
+            "type" : "boolean",
+            "default" : false
+          }
+        }
+      },
+      "RestaurantTagsResponse" : {
+        "type" : "object",
+        "properties" : {
+          "memberships" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Membership"
+            }
+          },
+          "tags" : {
+            "$ref" : "#/components/schemas/Tag"
+          }
+        }
+      },
+      "Tag" : {
+        "type" : "object",
+        "properties" : {
+          "tag" : {
+            "type" : "string"
+          },
+          "value" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        }
+      },
+      "Membership" : {
+        "title" : "Membership",
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string"
+          },
+          "img" : {
+            "type" : "string"
+          },
+          "visits" : {
+            "type" : "integer",
+            "default" : 0
+          },
+          "membershipId" : {
+            "type" : "string"
+          },
+          "membershipName" : {
+            "type" : "string"
+          },
+          "price" : {
+            "type" : "string"
+          },
+          "description" : {
+            "type" : "string"
+          }
+        }
+      },
+      "ScoreRequest" : {
+        "required" : [ "dishId", "restaurantId", "starsDish", "starsRestaurant" ],
+        "type" : "object",
+        "properties" : {
+          "restaurantId" : {
+            "type" : "string"
+          },
+          "dishId" : {
+            "type" : "string"
+          },
+          "starsRestaurant" : {
+            "type" : "integer",
+            "example" : 4
+          },
+          "starsDish" : {
+            "type" : "integer",
+            "example" : 3
+          }
+        }
+      },
+      "MembershipsResponse" : {
+        "type" : "object",
+        "properties" : {
+          "actualMembership" : {
+            "$ref" : "#/components/schemas/MembershipResponse"
+          },
+          "memberships" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/MembershipResponse"
+            }
+          }
+        }
+      },
+      "MembershipResponse" : {
+        "type" : "object",
+        "properties" : {
+          "membership" : {
+            "$ref" : "#/components/schemas/Membership"
+          },
+          "restaurants" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Restaurant"
+            }
+          }
+        }
+      },
+      "DeleteMembershipResponse" : {
+        "type" : "object",
+        "properties" : {
+          "membershipFinalizeDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        }
+      },
+      "UpdateMembershipToUserRequest" : {
+        "required" : [ "membershipId" ],
+        "type" : "object",
+        "properties" : {
+          "membershipId" : {
+            "type" : "integer"
+          }
+        }
+      },
+      "UserReservation" : {
+        "type" : "object",
+        "properties" : {
+          "userId" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "lastName" : {
+            "type" : "string"
+          }
+        }
+      },
+      "CreateReservationRequest" : {
+        "type" : "object",
+        "properties" : {
+          "restaurantId" : {
+            "type" : "string"
+          },
+          "date" : {
+            "type" : "string"
+          },
+          "toConfirmUsers" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "dinners" : {
+            "type" : "integer"
+          }
+        }
+      },
+      "ReservationResponse" : {
+        "type" : "object",
+        "properties" : {
+          "reservationId" : {
+            "type" : "string"
+          },
+          "restaurantId" : {
+            "type" : "string"
+          },
+          "date" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "ownerUser" : {
+            "$ref" : "#/components/schemas/UserReservation"
+          },
+          "qrBase64" : {
+            "type" : "string"
+          },
+          "confirmedUsers" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/UserReservation"
+            }
+          },
+          "toConfirmUsers" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/UserReservation"
+            }
+          },
+          "restaurantName" : {
+            "type" : "string"
+          },
+          "restaurantAddress" : {
+            "type" : "string"
+          },
+          "img" : {
+            "type" : "string"
+          },
+          "dinners" : {
+            "type" : "integer"
+          },
+          "isInvitation" : {
+            "type" : "boolean",
+            "example" : false
+          }
+        }
+      }
+    }
+  }
+}
